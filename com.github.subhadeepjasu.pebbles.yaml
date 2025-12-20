@@ -1,9 +1,9 @@
 app-id: com.github.subhadeepjasu.pebbles
 sdk: org.freedesktop.Sdk
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 base: io.elementary.BaseApp
-base-version: circe-24.08
+base-version: circe-25.08
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
 build-options:
