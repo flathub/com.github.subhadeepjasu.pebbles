@@ -1,9 +1,14 @@
 app-id: com.github.subhadeepjasu.pebbles
 sdk: org.freedesktop.Sdk
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: '25.08'
 base: io.elementary.BaseApp
-base-version: juno-23.08
+base-version: circe-25.08
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.vala
+build-options:
+  prepend-path: /usr/lib/sdk/vala/bin/
+  prepend-ld-library-path: /usr/lib/sdk/vala/lib
 command: com.github.subhadeepjasu.pebbles
 finish-args:
   - --device=dri
@@ -38,13 +43,22 @@ cleanup:
 modules:
   - shared-modules/libsoup/libsoup-2.4.json
 
+  - name: libgee
+    make-install-args:
+      - girdir=/app/share/gir-1.0
+      - typelibdir=/app/lib/girepository-1.0
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libgee/0.20/libgee-0.20.8.tar.xz
+        sha256: 189815ac143d89867193b0c52b7dc31f3aa108a15f04d6b5dca2b6adfad0b0ee
+
   - name: libhandy
     buildsystem: meson
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/libhandy.git
-        tag: 1.2.3
-        commit: e9ca4ac4b134bbd6ab91b6f916a915192fd3a465
+        tag: 1.8.3
+        commit: 9b0071408ce86a3ef843806fddd723a85f6f2416
     config-opts:
       - -Dglade_catalog=disabled
       - -Dvapi=true
@@ -58,8 +72,8 @@ modules:
       - /bin
     sources:
       - type: archive
-        url: https://ftp.gnu.org/gnu/gsl/gsl-2.6.tar.gz
-        sha256: b782339fc7a38fe17689cb39966c4d821236c28018b6593ddb6fd59ee40786a8
+        url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
+        sha256: 6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190
 
   - name: Pebbles
     buildsystem: meson
