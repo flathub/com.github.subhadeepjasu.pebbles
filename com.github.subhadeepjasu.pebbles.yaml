@@ -1,22 +1,17 @@
 app-id: com.github.subhadeepjasu.pebbles
-sdk: org.freedesktop.Sdk
-runtime: org.freedesktop.Platform
-runtime-version: '25.08'
-base: io.elementary.BaseApp
+sdk: org.gnome.Sdk
+runtime: org.gnome.Platform
+runtime-version: '49'
+base: io.elementary.BaseApp # elementary SDK is not available on Flathub, so use the elementary BaseApp instead
 base-version: circe-25.08
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.vala
-build-options:
-  prepend-path: /usr/lib/sdk/vala/bin/
-  prepend-ld-library-path: /usr/lib/sdk/vala/lib
 command: com.github.subhadeepjasu.pebbles
+
 finish-args:
   - --device=dri
   - --share=network
   - --share=ipc
   - --socket=wayland
   - --socket=fallback-x11
-  - --system-talk-name=org.freedesktop.Accounts
   - --metadata=X-DConf=migrate-path=/com/github/subhadeepjasu/pebbles
 
 cleanup:
