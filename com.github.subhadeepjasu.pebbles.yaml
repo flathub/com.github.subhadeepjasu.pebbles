@@ -71,7 +71,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/jwestman/blueprint-compiler
-        tag: v0.14.0
+        tag: v0.12.0
 
 
   - name: Pebbles
@@ -81,6 +81,8 @@ modules:
         url: https://github.com/SubhadeepJasu/pebbles.git
         tag: v3.0.0
         commit: b2b7b6f10ea3703e10c9f4c566c6892f220250eb
+    config-opts:
+      - --buildtype=release
     post-install:
       # workaround for non-png-icon-in-hicolor-size-folder lint error
       - mkdir -p /app/share/icons/hicolor/scalable/apps
