@@ -68,10 +68,13 @@ modules:
     buildsystem: meson
     sources:
       - type: git
-        is-main-source: true
         url: https://github.com/SubhadeepJasu/pebbles.git
         tag: v3.0.0
         commit: b2b7b6f10ea3703e10c9f4c566c6892f220250eb
+        x-checker-data:
+          is-main-source: true
+          type: git
+          tag-pattern: ^v([\d.]+)$
       - type: patch
         path: patches/blp-meson-temp.patch
     config-opts:
