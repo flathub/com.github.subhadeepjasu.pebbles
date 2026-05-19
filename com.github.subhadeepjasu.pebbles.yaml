@@ -1,7 +1,7 @@
 app-id: com.github.subhadeepjasu.pebbles
 sdk: org.gnome.Sdk
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: '50'
 base: io.elementary.BaseApp # elementary SDK is not available on Flathub, so use the elementary BaseApp instead
 base-version: circe-25.08
 command: com.github.subhadeepjasu.pebbles
@@ -15,57 +15,31 @@ finish-args:
   - --metadata=X-DConf=migrate-path=/com/github/subhadeepjasu/pebbles
 
 cleanup:
-  - '.la'
-  - '*.a'
-  - /cache
-  - /include
-  - /lib/pkgconfig
-  - /lib/systemd
-  - /lib/valadoc
-  - /lib/valadoc-0.48
-  - /man
-  - /gls
-  - /share/aclocal
-  - /share/devhelp
-  - /share/gir-1.0
-  - /share/gtk-doc
-  - /share/man
-  - /share/vala-0.40
-  - /share/vala-0.48
-  - /share/valadoc
-  - /share/valadoc-0.48
+  - /lib/python3.*/site-packages/*/*/tests
+  - /lib/python3.*/site-packages/*/tests
+
+# WARNING: A temporary solution until io.elementary.BaseApp//circe-26.08 released
+cleanup-commands:
+  - rm -rf /app/bin/sassc
+  - rm -rf /app/include
+  - rm -rf /app/lib/pkgconfig
+  - rm -rf /app/share/gir-1.0
+  - rm -rf /app/share/man
+  - rm -rf /app/share/vala
 
 modules:
   - shared-modules/libsoup/libsoup-2.4.json
   - python-deps.yml
-  - name: libsass
-    cleanup:
-      - "*"
-    sources:
-      - type: archive
-        url: https://github.com/sass/libsass/archive/3.5.4.tar.gz
-        sha256: 5f61cbcddaf8e6ef7a725fcfa5d05297becd7843960f245197ebb655ff868770
-
-      - type: script
-        dest-filename: autogen.sh
-        commands:
-          - autoreconf -si
-
-  - name: sassc
-    cleanup:
-      - "*"
-    sources:
-      - type: archive
-        url: https://github.com/sass/sassc/archive/3.5.0.tar.gz
-        sha256: 26f54e31924b83dd706bc77df5f8f5553a84d51365f0e3c566df8de027918042
-
-      - type: script
-        dest-filename: autogen.sh
-        commands:
-          - autoreconf -si
 
   - name: Pebbles
     buildsystem: meson
+    config-opts:
+      - -Dbuildtype=release
+    post-install:
+      # workaround for non-png-icon-in-hicolor-size-folder lint error
+      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      - mv /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - find /app/share/icons/hicolor -type f -not -path "*scalable*" -not -path "*actions*" -name "*.svg" -delete
     sources:
       - type: git
         url: https://github.com/SubhadeepJasu/pebbles.git
@@ -77,10 +51,3 @@ modules:
           tag-pattern: ^v([\d.]+)$
       - type: patch
         path: patches/blp-meson-temp.patch
-    config-opts:
-      - --buildtype=release
-    post-install:
-      # workaround for non-png-icon-in-hicolor-size-folder lint error
-      - mkdir -p /app/share/icons/hicolor/scalable/apps
-      - mv /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
-      - find /app/share/icons/hicolor -type f -not -path "*scalable*" -not -path "*actions*" -name "*.svg" -delete
