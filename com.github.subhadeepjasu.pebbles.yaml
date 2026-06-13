@@ -29,7 +29,7 @@ cleanup-commands:
 
 modules:
   - shared-modules/libsoup/libsoup-2.4.json
-  - python-deps.yml
+  - python-deps.yaml
 
   - name: Pebbles
     buildsystem: meson
