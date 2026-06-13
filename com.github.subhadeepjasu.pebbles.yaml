@@ -50,5 +50,3 @@ modules:
           is-main-source: true
           type: git
           tag-pattern: ^v([\d.]+)$
-      - type: patch
-        path: patches/blp-meson-temp.patch
