@@ -1,0 +1,12 @@
+pybind11
+meson-python
+numpy
+contourpy
+cycler
+fonttools
+six
+python_dateutil
+kiwisolver
+pillow
+pyparsing
+matplotlib
